@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('auth:api')->group(function (){
+    Route::apiResource('categories', CategoryController::class);
+});
+
+
+//Route::apiResource('categories', CategoryController::class);
+
+Route::post('login', [UserAuthController::class, 'login']);
+Route::post('register', [UserAuthController::class, 'register']);
+
+Route::get('kurslar', [CategoryController::class,'kurs']);
